@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <title>Ballclub Empire</title>
+   <link rel="stylesheet" href="style.css" />
+   <script src="test.js"></script>
+   <style>
+		@import url('https://fonts.googleapis.com/css2?family=Bayon&display=swap');
+	</style>
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=Jersey+10&display=swap');
+	</style>
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=Overpass:ital,wght@0,100..900;1,100..900&display=swap');
+	</style>
+</head>
+<body>
+	<img class="logo" src="images/ballclub-empire.png" alt="Ballclub Empire" width="100" height="100">
+	<button  id="playball" onclick="playball()"><b>Play Ball!</b></button>
+	<div class="game">
+		<div class="scoreboard">
+			<div id="boxscore">
+				<div id="boxscore-headers">
+					<h1 id="head">1</h1>
+					<h1 id="head">2</h1>
+					<h1 id="head">3</h1>
+					<h1 id="head">4</h1>
+					<h1 id="head">5</h1>
+					<h1 id="head">6</h1>
+					<h1 id="head">7</h1>
+					<h1 id="head">8</h1>
+					<h1 id="last-inning">9</h1>
+					<h1 id="head">R</h1>
+					<h1 id="head">H</h1>
+					<h1 id="head">E</h1>
+				</div>
+				<div id="teamsBox">
+					<div id="awayteamBox">
+						<h1 id="awayTeam">BOS</h1>
+					</div>
+					<div id="hometeamBox">
+						<h1 id="homeTeam">NYY</h1>
+					</div>
+				</div>
+				<div id="first-3-frames">
+					<div id="box-T1">
+						<h1 id="top-1">0</h1>
+					</div>
+					<div id="box-B1">
+						<h1 id="bottom-1"></h1>
+					</div>					
+					<div id="box-T2">
+						<h1 id="top-2"></h1>
+					</div>					
+					<div id="box-B2">
+						<h1 id="bottom-2"></h1>
+					</div>					
+					<div id="box-T3">
+						<h1 id="top-3"></h1>
+					</div>					
+					<div id="box-B3">
+						<h1 id="bottom-3"></h1>
+					</div>				
+				</div>
+				<div id="second-3-frames">
+					<div id="box-T4">
+						<h1 id="top-4"></h1>
+					</div>
+					<div id="box-B4">
+						<h1 id="bottom-4"></h1>
+					</div>					
+					<div id="box-T5">
+						<h1 id="top-5"></h1>
+					</div>					
+					<div id="box-B5">
+						<h1 id="bottom-5"></h1>
+					</div>					
+					<div id="box-T6">
+						<h1 id="top-6"></h1>
+					</div>					
+					<div id="box-B6">
+						<h1 id="bottom-6"></h1>
+					</div>	
+				</div>
+				<div id="third-3-frames">
+					<div id="box-T7">
+						<h1 id="top-7"></h1>
+					</div>
+					<div id="box-B7">
+						<h1 id="bottom-7"></h1>
+					</div>					
+					<div id="box-T8">
+						<h1 id="top-8"></h1>
+					</div>					
+					<div id="box-B8">
+						<h1 id="bottom-8"></h1>
+					</div>					
+					<div id="box-T9">
+						<h1 id="top-9"></h1>
+					</div>					
+					<div id="box-B9">
+						<h1 id="bottom-9"></h1>
+					</div>	
+				</div>
+				<div id="score">
+					<div id="away-runs">
+						<h1 id="awayScore">0</h1>
+					</div>
+					<div id="home-runs">
+						<h1 id="homeScore">0</h1>
+					</div>
+					<div id="away-hits">
+						<h1 id="awayHits">0</h1>
+					</div>
+					<div id="home-hits">
+						<h1 id="homeHits">0</h1>
+					</div>
+					<div id="away-errors">
+						<h1 id="awayErrors">0</h1>
+					</div>
+					<div id="home-errors">
+						<h1 id="homeErrors">0</h1>
+					</div>					
+				</div>
+			</div>
+			<div id="count">
+				<div id="balls">
+					<div id="ball-1">
+					</div>
+					<div id="ball-2">
+					</div>
+					<div id="ball-3">
+					</div>
+					<h1 id="balls-header">Balls</h1>
+				</div>
+				<div id="strikes">
+					<div id="strike-1">
+					</div>
+					<div id="strike-2">
+					</div>
+					<h1 id="strikes-header">Strikes</h1>
+				</div>
+				<div id="outs">
+					<div id="out-1">
+					</div>
+					<div id="out-2">
+					</div>
+					<h1 id="out-header">Outs</h1>
+				</div>
+				<div id="pitchclock">
+					<div id="pitchclock-header"><h1>Pitch Clock</h1></div>
+					<div id="pitchclock-counter"><h1></h1></div>
+				</div>
+			</div>
+			<div id="playbyplay">
+				<p id="pbp-text"><b></b></p>
+			</div>
+			<div id="runners">
+				<div id="onFirst"></div>
+				<div id="onSecond"></div>
+				<div id="onThird"></div>
+				<div id="home"></div>
+			</div>
+			<div id="pitch">
+				<h1 id="lastpitch-header">Last pitch</h1>
+				<h1 id="lastpitch"></h1>
+				<h1 id="velocity"></h1>
+			</div>
+		</div>
+		<div class="ballpark">
+			<div class="field">
+				<div id="game-ball">
+				</div>
+				<div class="players">
+						<div class="defense">
+							<div id="pitcher">
+								<span id="pitcher-no"></span>
+							</div>
+							<div id ="catcher">
+								<span id = "catcher-no"></span>
+							</div>
+							<div id ="first-baseman">
+								<span id = "firstbase-no"></span>
+							</div>
+							<div id ="second-baseman">
+								<span id = "secondbase-no"></span>
+							</div>
+							<div id ="third-baseman">
+								<span id = "thirdbase-no"></span>
+							</div>
+							<div id ="shortstop">
+								<span id = "shortstop-no"></span>
+							</div>
+							<div id ="left-fielder">
+								<span id = "leftfield-no"></span>
+							</div>
+							<div id ="center-fielder">
+								<span id = "centerfield-no"></span>
+							</div>
+							<div id ="right-fielder">
+								<span id = "rightfield-no"></span>
+							</div>
+						</div>
+						<div class="offense">
+							<div id ="batter">
+								<span id = "batter-no"></span>
+							</div>
+							<div id ="runner-one">
+								<span id = "runnerone-no"></span>
+							</div>
+							<div id ="runner-two">
+								<span id = "runnertwo-no"></span>
+							</div>
+							<div id ="runner-three">
+								<span id = "runnerthree-no"></span>
+							</div>
+						</div>
+				</div>
+				<div id="homeplate">
+				</div>
+				<div id="first-base">
+				</div>
+				<div id="second-base">
+				</div>
+				<div id="third-base">
+				</div>
+				<div id="pitchers-mound">
+				</div>
+				<div id="first-base-line">
+				</div>
+				<div id="third-base-line">
+				</div>
+				<div id="batter-box-left">
+				</div>
+				<div id="batter-box-right">
+				</div>
+				<div id="baseball-diamond">
+				</div>
+			</div>
+			<div class="wall">
+			</div>
+		</div>
+		<div class="away-statistics">
+			<table id="awaystats" border="1">
+				<tr id="away-header">
+    				<td>Order</td>
+     				<td id="away-team-no">#</td>		
+     				<td id="away-team-name">Player</td>
+     				<td id="away-team-bat">Bats</td>		
+  				</tr>
+				<tr id="away-1">
+    				<td>1</td>
+     				<td id="away-1-no">16</td>		
+     				<td id="away-1-name">Jarren Duran</td>		
+     				<td id="away-1-bat">L</td>		
+  				</tr>
+				<tr id="away-2">
+    				<td>2</td>	
+     				<td id="away-2-no">12</td>		
+     				<td id="away-2-name">Connor Wong</td>		
+     				<td id="away-2-bat">R</td>			
+  				</tr>
+				<tr id="away-3">
+    				<td>3</td>	
+     				<td id="away-3-no">17</td>		
+     				<td id="away-3-name">Tyler O'Neill</td>
+     				<td id="away-3-bat">R</td>					
+  				</tr>
+				<tr id="away-4">
+    				<td>4</td>	
+     				<td id="away-4-no">11</td>		
+     				<td id="away-4-name">Rafael Devers</td>
+     				<td id="away-4-bat">L</td>			
+  				</tr>
+				<tr id="away-5">
+    				<td>5</td>	
+     				<td id="away-5-no">23</td>		
+     				<td id="away-5-name">Romy Gonzalez</td>
+     				<td id="away-5-bat">R</td>					
+  				</tr>
+				<tr id="away-6">
+    				<td>6</td>	
+     				<td id="away-6-no">52</td>		
+     				<td id="away-6-name">Wilyer Abreu</td>
+     				<td id="away-6-bat">L</td>				
+  				</tr>
+				<tr id="away-7">
+    				<td>7</td>	
+     				<td id="away-7-no">2</td>		
+     				<td id="away-7-name">Dominic Smith</td>
+     				<td id="away-7-bat">L</td>				
+  				</tr>
+				<tr id="away-8">
+    				<td>8</td>	
+     				<td id="away-8-no">43</td>		
+     				<td id="away-8-name">Ceddanne Rafaela</td>
+     				<td id="away-8-bat">R</td>			
+  				</tr>
+				<tr id="away-9">
+    				<td>9</td>	
+     				<td id="away-9-no">70</td>		
+     				<td id="away-9-name">David Hamilton</td>
+     				<td id="away-9-bat">L</td>				
+  				</tr>
+			</table>
+		</div>
+		<div class="home-statistics">
+			<table id="homestats" border="1">
+				<tr id="home-header">
+    				<td>Order</td>
+     				<td id="home-team-no">#</td>		
+     				<td id="home-team-name">Player</td>
+     				<td id="home-team-bat">Bats</td>		
+  				</tr>
+				<tr id="home-1">
+    				<td>1</td>
+     				<td id="home-1-no">11</td>		
+     				<td id="home-1-name">Anthony Volpe</td>
+     				<td id="home-1-bat">R</td>		
+  				</tr>
+				<tr id="home-2">
+    				<td>2</td>	
+     				<td id="home-2-no">22</td>		
+     				<td id="home-2-name">Juan Soto</td>		
+     				<td id="home-2-bat">L</td>			
+  				</tr>
+				<tr id="home-3">
+    				<td>3</td>	
+     				<td id="home-3-no">99</td>		
+     				<td id="home-3-name">Aaron Judge</td>
+     				<td id="home-3-bat">R</td>					
+  				</tr>
+				<tr id="home-4">
+    				<td>4</td>	
+     				<td id="home-4-no">24</td>		
+     				<td id="home-4-name">Alex Verdugo</td>
+     				<td id="home-4-bat">L</td>			
+  				</tr>
+				<tr id="home-5">
+    				<td>5</td>	
+     				<td id="home-5-no">27</td>		
+     				<td id="home-5-name">Giancarlo Stanton</td>
+     				<td id="home-5-bat">R</td>					
+  				</tr>
+				<tr id="home-6">
+    				<td>6</td>	
+     				<td id="home-6-no">48</td>		
+     				<td id="home-6-name">Anthony Rizzo</td>
+     				<td id="home-6-bat">L</td>				
+  				</tr>
+				<tr id="home-7">
+    				<td>7</td>	
+     				<td id="home-7-no">25</td>		
+     				<td id="home-7-name">Gleyber Torres</td>
+     				<td id="home-7-bat">R</td>				
+  				</tr>
+				<tr id="home-8">
+    				<td>8</td>	
+     				<td id="home-8-no">28</td>		
+     				<td id="home-8-name">Austin Wells</td>
+     				<td id="home-8-bat">L</td>			
+  				</tr>
+				<tr id="home-9">
+    				<td>9</td>	
+     				<td id="home-9-no">95</td>		
+     				<td id="home-9-name">Oswaldo Cabrera</td>
+     				<td id="home-9-bat">L</td>				
+  				</tr>
+			</table>
+		</div>
+	</div>
+
+</body>
+</html>
