@@ -1,0 +1,4 @@
+<b>Why this was made</b><br>
+This was created because of my interest in data analytics and my love for baseball. I grew up playing games like Out of the Park Baseball and MLB the Show. As I am pursuing a Master's degree in Data Analytics, to help fine-tune my skills I have attempted to understand how a simulation baseball game could be created. As a kid I loved playing an online game called Pigskinempire. The visuals and animations are the style that I am emulating here. This project is all for fun and to hopefully create a fully functioning baseball game simulator!<br><br>
+<b>My programming background</b><br>
+Most of my programming background is in HTML, CSS and Python. This project has forced me to learn a lot of Javascript. I am by no means a Javascript programmer or expert. Any help in this area is greatly appreciated.
