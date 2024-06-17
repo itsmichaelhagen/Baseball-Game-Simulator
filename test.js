@@ -527,15 +527,15 @@ function recordPitch() {
 
 let timeLeft = 15000;
 let timeX = 0;
-let intervalId;
-let simInterval;
-let throwpitchInterval;
+var throwpitchInterval;
 let atbatPitches = 0;
 let p = 1;
 let batOver = 0;
 var pitchInterval;
 var pitchclockInterval;
-var nextInterval;
+var nextABTimeout;
+var changeInningTimeout;
+var playballTimeout;
 let inningRuns = 0;
 let justscored = 0;
 let numberofRunners = 0;
@@ -567,6 +567,49 @@ let gameID = 1;
 let data = `Game Log for gameid: ${gameID}`;
 
 
+function clearThrowPitchInterval() {
+    if (throwpitchInterval) {
+        clearTimeout(throwpitchInterval);
+        throwpitchInterval = null;
+    }
+}
+
+function clearNextABTimeout() {
+    if (nextABTimeout) {
+        clearTimeout(nextABTimeout);
+        nextABTimeout = null;
+    }
+}
+
+function clearPlayBallTimeout() {
+    if (playballTimeout) {
+        clearTimeout(playballTimeout);
+        playballTimeout = null;
+    }
+}
+
+function clearChangeInningTimeout() {
+    if (changeInningTimeout) {
+        clearTimeout(changeInningTimeout);
+        changeInningTimeout = null;
+    }
+}
+
+function clearPitchInterval() {
+    if (pitchInterval) {
+        clearInterval(pitchInterval);
+        pitchInterval = null;
+    }
+}
+
+function clearPitchClockInterval() {
+    if (pitchclockInterval) {
+        clearInterval(pitchclockInterval);
+        pitchclockInterval = null;
+    }
+}
+
+
 
 function pitchTime() {
 	p = Math.random()*5;
@@ -579,6 +622,7 @@ function pitchTime() {
 }
 
 function pitchclock() {
+	clearPitchClockInterval();
 	timeLeft = 15;
 
 	pitchclockInterval = setInterval(() => {
@@ -597,6 +641,7 @@ function pitchclock() {
 }
 
 function inningclock() {
+	clearPitchClockInterval();
 	timeLeft = 15;
 
 	pitchclockInterval = setInterval(() => {
@@ -1240,27 +1285,27 @@ function pitch() {
 								lastpitch = "Single";
 								recordPitch();
 								runnersMove();
-								clearInterval(pitchInterval);
+								clearPitchInterval();
 							} else if (single<x && x<=double) {
 								lastpitch = "Double";
 								recordPitch();
 								runnersMove();
-								clearInterval(pitchInterval);
+								clearPitchInterval();
 							} else if (double<x && x<=homerun) {
 								lastpitch = "Homerun";
 								recordPitch();
 								runnersMove();
-								clearInterval(pitchInterval);							
+								clearPitchInterval();						
 							} else if (triple<=x) {
 								lastpitch = "Triple";
 								recordPitch();
 								runnersMove();
-								clearInterval(pitchInterval);
+								clearPitchInterval();
 							}
 						} else {
 							lastpitch = "Out";
 							recordPitch();
-							clearInterval(pitchInterval);
+							clearPitchInterval();
 						}
 					} else {
 						lastpitch = "Foul"
@@ -1299,27 +1344,27 @@ function pitch() {
 								lastpitch = "Single";
 								recordPitch();
 								runnersMove();
-								clearInterval(pitchInterval);
+								clearPitchInterval();
 							} else if (single<x && x<=double) {
 								lastpitch = "Double";
 								recordPitch();
 								runnersMove();
-								clearInterval(pitchInterval);
+								clearPitchInterval();
 							} else if (double<x && x<=homerun) {
 								lastpitch = "Homerun";
 								recordPitch();
 								runnersMove();
-								clearInterval(pitchInterval);
+								clearPitchInterval();
 							} else if (triple<=x) {
 								lastpitch = "Triple";
 								recordPitch();
 								runnersMove();
-								clearInterval(pitchInterval);
+								clearPitchInterval();
 							}
 						} else {
 							lastpitch = "Out";
 							recordPitch();
-							clearInterval(pitchInterval);
+							clearPitchInterval();
 						}
 					} else {
 						lastpitch = "Foul"
@@ -1358,9 +1403,8 @@ function atbatRecord() {
 					document.getElementById("ball-3").style.backgroundColor="#4f7e6f";
 					lastpitch = "None";
 					batOver = 1001;
-					clearInterval(pitchclockInterval);
-					clearInterval(pitchInterval);
-					clearInterval(intervalId);
+					clearPitchClockInterval();
+					clearPitchInterval();
 					if (outs == 1) {
 						document.getElementById("out-1").style.backgroundColor="#DC143C";
 						nextAtBat();
@@ -1399,9 +1443,8 @@ function atbatRecord() {
 					document.getElementById("strike-2").style.backgroundColor="#4f7e6f";
 					lastpitch = "None";
 					batOver = 1001;
-					clearInterval(pitchclockInterval);
-					clearInterval(pitchInterval);
-					clearInterval(intervalId);
+					clearPitchClockInterval();
+					clearPitchInterval();
 					nextAtBat();
 				} else {
 					console.log(`The count is ${balls}-${strikes}.`);
@@ -1430,9 +1473,8 @@ function atbatRecord() {
 				resetCount();
 				lastpitch = "None";
 				batOver = 1001;
-				clearInterval(pitchclockInterval);
-				clearInterval(pitchInterval);
-				clearInterval(intervalId);
+				clearPitchClockInterval();
+				clearPitchInterval();
 				nextAtBat();
 			} else if (lastpitch == 'Double') {
 				atbatPitches = 0;
@@ -1445,9 +1487,8 @@ function atbatRecord() {
 				resetCount();
 				lastpitch = "None";
 				batOver = 1001;
-				clearInterval(pitchclockInterval);
-				clearInterval(pitchInterval);
-				clearInterval(intervalId);
+				clearPitchClockInterval();
+				clearPitchInterval();
 				nextAtBat();
 			} else if (lastpitch == 'Triple') {
 				batPitches = 0;
@@ -1460,9 +1501,8 @@ function atbatRecord() {
 				resetCount();
 				lastpitch = "None";
 				batOver = 1001;
-				clearInterval(pitchclockInterval);
-				clearInterval(pitchInterval);
-				clearInterval(intervalId);
+				clearPitchClockInterval();
+				clearPitchInterval();
 				nextAtBat();
 			} else if (lastpitch == 'Homerun') {
 				atbatPitches = 0;
@@ -1475,9 +1515,8 @@ function atbatRecord() {
 				resetCount();
 				lastpitch = "None";
 				batOver = 1001;
-				clearInterval(pitchclockInterval);
-				clearInterval(pitchInterval);
-				clearInterval(intervalId);
+				clearPitchClockInterval();
+				clearPitchInterval();
 				nextAtBat();
 			} else if (lastpitch == 'Out') {
 				atbatPitches = 0;
@@ -1490,9 +1529,8 @@ function atbatRecord() {
 				resetCount();
 				lastpitch = "None";
 				batOver = 1001;
-				clearInterval(pitchclockInterval);
-				clearInterval(pitchInterval);
-				clearInterval(intervalId);
+				clearPitchClockInterval();
+				clearPitchInterval();
 				if (outs == 1) {
 					document.getElementById("out-1").style.backgroundColor="#DC143C";
 					nextAtBat();
@@ -1508,6 +1546,21 @@ function atbatRecord() {
 					outs = 0;		
 				}
 			}
+}
+
+function changeInningClock() {
+	clearChangeInningTimeout();
+		changeInningTimeout = setTimeout(() => {
+			nextAtBat();
+		}, 15000);
+}
+
+function startNextAB() {
+	clearNextABTimeout();
+	nextABTimeout = setTimeout(() => {
+		resetCount();
+		atbat();
+	}, 10000);
 }
 
 
@@ -1529,9 +1582,7 @@ function changeInning() {
 		document.getElementById("box-T1").style.backgroundColor="#4f7e6f";
 		document.getElementById("box-B1").style.backgroundColor="#000000";
 		document.getElementById("bottom-1").innerHTML = inningRuns;		
-		setTimeout(() => {
-			nextAtBat();
-		}, 15000);
+		changeInningClock();
 	} else if (inning == 1.5) {
 		inning = inning+0.5;
 		resetRunners();
@@ -1543,9 +1594,7 @@ function changeInning() {
 		document.getElementById("box-B1").style.backgroundColor="#4f7e6f";
 		document.getElementById("box-T2").style.backgroundColor="#000000";
 		document.getElementById("top-2").innerHTML = inningRuns;	
-		setTimeout(() => {
-			nextAtBat();
-		}, 15000);
+		changeInningClock();
 	} else if (inning == 2) {
 		inning = inning+0.5;
 		resetRunners();
@@ -1557,9 +1606,7 @@ function changeInning() {
 		document.getElementById("box-T2").style.backgroundColor="#4f7e6f";
 		document.getElementById("box-B2").style.backgroundColor="#000000";
 		document.getElementById("bottom-2").innerHTML = inningRuns;	
-		setTimeout(() => {
-			nextAtBat();
-		}, 15000);
+		changeInningClock();
 	} else if (inning == 2.5) {
 		inning = inning+0.5;
 		resetRunners();
@@ -1571,9 +1618,7 @@ function changeInning() {
 		document.getElementById("box-B2").style.backgroundColor="#4f7e6f";
 		document.getElementById("box-T3").style.backgroundColor="#000000";
 		document.getElementById("top-3").innerHTML = inningRuns;	
-		setTimeout(() => {
-			nextAtBat();
-		}, 15000);
+		changeInningClock();
 	} else if (inning == 3) {
 		inning = inning+0.5;
 		resetRunners();
@@ -1585,9 +1630,7 @@ function changeInning() {
 		document.getElementById("box-T3").style.backgroundColor="#4f7e6f";
 		document.getElementById("box-B3").style.backgroundColor="#000000";
 		document.getElementById("bottom-3").innerHTML = inningRuns;	
-		setTimeout(() => {
-			nextAtBat();
-		}, 15000);
+		changeInningClock();
 	} else if (inning == 3.5) {
 		inning = inning+0.5;
 		resetRunners();
@@ -1599,9 +1642,7 @@ function changeInning() {
 		document.getElementById("box-B3").style.backgroundColor="#4f7e6f";
 		document.getElementById("box-T4").style.backgroundColor="#000000";
 		document.getElementById("top-4").innerHTML = inningRuns;	
-		setTimeout(() => {
-			nextAtBat();
-		}, 15000);
+		changeInningClock();
 	} else if (inning == 4) {
 		inning = inning+0.5;
 		resetRunners();
@@ -1613,9 +1654,7 @@ function changeInning() {
 		document.getElementById("box-T4").style.backgroundColor="#4f7e6f";
 		document.getElementById("box-B4").style.backgroundColor="#000000";
 		document.getElementById("bottom-4").innerHTML = inningRuns;	
-		setTimeout(() => {
-			nextAtBat();
-		}, 15000);
+		changeInningClock();
 	} else if (inning == 4.5) {
 		inning = inning+0.5;
 		resetRunners();
@@ -1627,9 +1666,7 @@ function changeInning() {
 		document.getElementById("box-B4").style.backgroundColor="#4f7e6f";
 		document.getElementById("box-T5").style.backgroundColor="#000000";
 		document.getElementById("top-5").innerHTML = inningRuns;	
-		setTimeout(() => {
-			nextAtBat();
-		}, 15000);
+		changeInningClock();
 	} else if (inning == 5) {
 		inning = inning+0.5;
 		resetRunners();
@@ -1641,9 +1678,8 @@ function changeInning() {
 		document.getElementById("box-T5").style.backgroundColor="#4f7e6f";
 		document.getElementById("box-B5").style.backgroundColor="#000000";
 		document.getElementById("bottom-5").innerHTML = inningRuns;	
-		setTimeout(() => {
-			nextAtBat();
-		}, 15000);
+		changeInningClock();
+
 	} else if (inning == 5.5) {
 		inning = inning+0.5;
 		resetRunners();
@@ -1655,9 +1691,8 @@ function changeInning() {
 		document.getElementById("box-B5").style.backgroundColor="#4f7e6f";
 		document.getElementById("box-T6").style.backgroundColor="#000000";
 		document.getElementById("top-6").innerHTML = inningRuns;	
-		setTimeout(() => {
-			nextAtBat();
-		}, 15000);
+		changeInningClock();
+
 	} else if (inning == 6) {
 		inning = inning+0.5;
 		resetRunners();
@@ -1668,9 +1703,8 @@ function changeInning() {
 		document.getElementById("box-T6").style.backgroundColor="#4f7e6f";
 		document.getElementById("box-B6").style.backgroundColor="#000000";
 		document.getElementById("bottom-6").innerHTML = inningRuns;	
-		setTimeout(() => {
-			nextAtBat();
-		}, 15000);
+		changeInningClock();
+
 	} else if (inning == 6.5) {
 		inning = inning+0.5;
 		resetRunners();
@@ -1681,9 +1715,8 @@ function changeInning() {
 		document.getElementById("box-B6").style.backgroundColor="#4f7e6f";
 		document.getElementById("box-T7").style.backgroundColor="#000000";
 		document.getElementById("top-7").innerHTML = inningRuns;	
-		setTimeout(() => {
-			nextAtBat();
-		}, 15000);
+		changeInningClock();
+
 	} else if (inning == 7) {
 		inning = inning+0.5;
 		resetRunners();
@@ -1695,9 +1728,8 @@ function changeInning() {
 		document.getElementById("box-T7").style.backgroundColor="#4f7e6f";
 		document.getElementById("box-B7").style.backgroundColor="#000000";
 		document.getElementById("bottom-7").innerHTML = inningRuns;	
-		setTimeout(() => {
-			nextAtBat();
-		}, 15000);
+		changeInningClock();
+
 	} else if (inning == 7.5) {
 		inning = inning+0.5;
 		resetRunners();
@@ -1709,9 +1741,8 @@ function changeInning() {
 		document.getElementById("box-B7").style.backgroundColor="#4f7e6f";
 		document.getElementById("box-T8").style.backgroundColor="#000000";
 		document.getElementById("top-8").innerHTML = inningRuns;	
-		setTimeout(() => {
-			nextAtBat();
-		}, 15000);
+		changeInningClock();
+
 	} else if (inning == 8) {
 		inning = inning+0.5;
 		resetRunners();
@@ -1723,9 +1754,8 @@ function changeInning() {
 		document.getElementById("box-T8").style.backgroundColor="#4f7e6f";
 		document.getElementById("box-B8").style.backgroundColor="#000000";
 		document.getElementById("bottom-8").innerHTML = inningRuns;	
-		setTimeout(() => {
-			nextAtBat();
-		}, 15000);
+		changeInningClock();
+
 	} else if (inning == 8.5) {
 		inning = inning+0.5;
 		resetRunners();
@@ -1737,9 +1767,8 @@ function changeInning() {
 		document.getElementById("box-B8").style.backgroundColor="#4f7e6f";
 		document.getElementById("box-T9").style.backgroundColor="#000000";
 		document.getElementById("top-9").innerHTML = inningRuns;	
-		setTimeout(() => {
-			nextAtBat();
-		}, 15000);
+		changeInningClock();
+
 	} else if (inning >= 9) {
 		if (homeScore>awayScore) {
 			document.getElementById("pbp-text").innerHTML = "<b>GAME OVER</b>";
@@ -1786,9 +1815,7 @@ function changeInning() {
 
 
 			inningclock();
-			setTimeout(() => {
-				nextAtBat();
-			}, 15000);				
+			changeInningClock();		
 		};
 	} else {
 		document.getElementById("pbp-text").innerHTML = "<b>GAME OVER</b>";	
@@ -1801,7 +1828,7 @@ function changeInning() {
 	};
 }
 
-function playatbat() {
+/*function playatbat() {
 		document.getElementById("pbp-text").innerHTML = `<b>Next up to bat: ${currentbatter.name}</b>`;
 		document.getElementById("lastpitch").innerHTML = "";
 		document.getElementById("velocity").innerHTML = "";
@@ -1812,9 +1839,10 @@ function playatbat() {
 			atbatRecord();
 		}, 5000);
 		
-	}
+	}*/
 
 function throwPitch() {
+	clearThrowPitchInterval();
 	p = 1;
 	timeLeft = 1;
 
@@ -1831,17 +1859,17 @@ function throwPitch() {
 		atbatRecord();
 	}, p);
 
-	throwpitchInterval = null;
 
 	if (batOver > 1000) {
 		document.getElementById("pbp-text").innerHTML = "<b>AT BAT OVER</b>";
 		resetCount();
-		clearInterval(pitchInterval);
 	};
 
 }
 
 function atbat() {
+	clearThrowPitchInterval();
+	clearPitchInterval();
 	batOver = 0;
 	p = 1;
 	pitchclock();
@@ -1856,29 +1884,27 @@ function atbat() {
 		atbatRecord();
 	}, p);
 
-	throwpitchInterval = null;
-
 	pitchInterval = setInterval(throwPitch, 15000);
 
 }
 
 function nextAtBat() {
 	showRunners();
-	setTimeout(() => {
-		resetCount();
-		atbat();
-	}, 10000);
+	startNextAB();
 
 }
 
 function playball() {
+	clearThrowPitchInterval();
+	clearPitchInterval();
+	clearPlayBallTimeout();
 	document.getElementById("playball").style.display = "None";
 	document.getElementById("pbp-text").innerHTML = `<b>PLAY BALL!</b>`;
 	inning = 1;
 	switchSides();
 		
 
-	setTimeout(() => {
+	playballTimeout = setTimeout(() => {
 		atbat();
 	}, 6000);
 
